@@ -162,4 +162,4 @@ Kubernetes Documentation
 
 ## ⭐Star History
 
-[![Star History Chart](https://api.star-history.com/svg?repos=liuchenyang0703/k8s-yaml-generator&type=Date)](https://www.star-history.com/#liuchenyang0703/nav&Date)
+[![Star History Chart](https://api.star-history.com/svg?repos=liuchenyang0703/k8s-yaml-generator&type=Date)](https://www.star-history.com/#liuchenyang0703/k8s-yaml-generator&&Date)
