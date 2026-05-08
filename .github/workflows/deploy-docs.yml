@@ -23,7 +23,7 @@ jobs:
       - name: 设置 pnpm
         uses: pnpm/action-setup@v4
         with:
-          version: 10.26.2  # 指定pnpm的版本
+          version: 10.28.2  # 指定pnpm的版本
 
 
       - name: 设置 Node.js
@@ -35,7 +35,7 @@ jobs:
       - name: 安装依赖
         run: |
           corepack enable
-          pnpm install --frozen-lockfile
+          pnpm install
 
       - name: 构建文档
         env:
