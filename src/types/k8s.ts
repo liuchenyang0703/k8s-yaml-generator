@@ -251,6 +251,18 @@ export interface SecretFormData {
   data: KeyValueMap
 }
 
+export interface PersistentVolumeFormData {
+  metadata: Metadata
+  accessModes: string
+  storageClassName?: string
+  volumeMode: 'Filesystem' | 'Block'
+  capacity: ResourceRequirement
+  persistentVolumeReclaimPolicy: string
+  storageType: 'hostPath' | 'nfs'
+  hostPath?: { path: string }
+  nfs?: { server: string; path: string }
+}
+
 export interface PersistentVolumeClaimFormData {
   metadata: Metadata
   accessModes: Array<'ReadWriteOnce' | 'ReadOnlyMany' | 'ReadWriteMany'>
@@ -368,6 +380,7 @@ export type ResourceKind =
   | 'NetworkPolicy'
   | 'ConfigMap'
   | 'Secret'
+  | 'PersistentVolume'
   | 'PersistentVolumeClaim'
   | 'ServiceAccount'
   | 'Role'
@@ -389,6 +402,7 @@ export type ResourceFormUnion =
   | NetworkPolicyFormData
   | ConfigMapFormData
   | SecretFormData
+  | PersistentVolumeFormData
   | PersistentVolumeClaimFormData
   | ServiceAccountFormData
   | RoleFormData

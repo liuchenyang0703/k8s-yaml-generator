@@ -82,7 +82,7 @@ export const createPolicyRule = (): PolicyRuleForm => ({ apiGroups: [''], resour
 export const createSubject = (): SubjectForm => ({ kind: 'ServiceAccount', name: '', namespace: 'default' })
 export const createHpaMetric = (): HPAMetricForm => ({ type: 'Resource', resourceName: 'cpu', targetType: 'Utilization', averageUtilization: 80 })
 export const createHpaPolicy = (): HPABehaviorPolicy => ({ type: 'Percent', value: 100, periodSeconds: 15 })
-export const createVolumeClaimTemplate = (): VolumeClaimTemplate => ({ metadata: { name: 'data', labels: {} }, storageClassName: '', accessModes: 'ReadWriteOnce', requests: { storage: '10Gi' } })
+export const createVolumeClaimTemplate = (): VolumeClaimTemplate => ({ metadata: { name: 'data', labels: {} }, storageClassName: '', accessModes: ['ReadWriteOnce'], requests: { storage: '10Gi' } })
 
 export const createDefaultDeployment = (): DeploymentFormData => ({
   metadata: createMetadata('demo-deployment'),
@@ -143,7 +143,7 @@ export const createDefaultService = (): ServiceFormData => ({
   selector: { app: 'demo' },
   clusterIP: '',
   externalName: '',
-  sessionAffinity: '',
+  sessionAffinity: 'None',
   ports: [createServicePort()]
 })
 
@@ -165,7 +165,7 @@ export const createDefaultNetworkPolicy = (): NetworkPolicyFormData => ({
 export const createDefaultConfigMap = (): ConfigMapFormData => ({ metadata: createMetadata('demo-configmap'), immutable: false, data: { APP_NAME: 'demo' }, binaryData: {} })
 export const createDefaultSecret = (): SecretFormData => ({ metadata: createMetadata('demo-secret'), type: 'Opaque', immutable: false,data: {}, stringData: {}  })
 export const createDefaultPersistentVolume = (): PersistentVolumeFormData => ({ metadata: createMetadata('demo-pv'), accessModes: 'ReadWriteOnce', storageClassName: '', volumeMode: 'Filesystem', capacity: { storage: '20Gi' }, persistentVolumeReclaimPolicy: 'Retain', storageType: 'hostPath', hostPath: { path: '/mnt/data' }, nfs: { server: '', path: '/export/data' } })
-export const createDefaultPersistentVolumeClaim = (): PersistentVolumeClaimFormData => ({ metadata: createMetadata('demo-pvc'), accessModes: 'ReadWriteOnce', storageClassName: '', volumeMode: 'Filesystem', requests: { storage: '10Gi' }, limits: {}, selector: { matchLabels: {}, matchExpressions: [] } })
+export const createDefaultPersistentVolumeClaim = (): PersistentVolumeClaimFormData => ({ metadata: createMetadata('demo-pvc'), accessModes: ['ReadWriteOnce'], storageClassName: '', volumeMode: 'Filesystem', requests: { storage: '10Gi' }, limits: {}, selector: { matchLabels: {}, matchExpressions: [] } })
 export const createDefaultServiceAccount = (): ServiceAccountFormData => ({ metadata: createMetadata('demo-sa'), automountServiceAccountToken: true, imagePullSecrets: [], secrets: [] })
 export const createDefaultRole = (): RoleFormData => ({ metadata: createMetadata('demo-role'), rules: [createPolicyRule()] })
 export const createDefaultClusterRole = (): ClusterRoleFormData => ({ metadata: { name: 'demo-cluster-role', labels: {}, annotations: {} }, rules: [createPolicyRule()] })

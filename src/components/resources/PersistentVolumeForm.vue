@@ -59,7 +59,7 @@
         </div>
 
         <div
-          v-if="localForm.storageType === 'hostPath'"
+          v-if="localForm.storageType === 'hostPath' && localForm.hostPath"
           class="storage-block"
         >
           <el-form-item label="hostPath.path">
@@ -71,7 +71,7 @@
         </div>
 
         <div
-          v-if="localForm.storageType === 'nfs'"
+          v-if="localForm.storageType === 'nfs' && localForm.nfs"
           class="grid-two storage-block"
         >
           <el-form-item label="nfs.server">

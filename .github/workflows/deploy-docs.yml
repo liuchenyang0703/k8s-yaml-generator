@@ -4,7 +4,7 @@ name: 部署文档
 on:
   push:
     branches:
-      - blog_source
+      - main
 
 permissions:
   contents: write
@@ -23,13 +23,13 @@ jobs:
       - name: 设置 pnpm
         uses: pnpm/action-setup@v4
         with:
-          version: 9.15.3  # 指定pnpm的版本
+          version: 10.26.2  # 指定pnpm的版本
 
 
       - name: 设置 Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 18.19.0
+          node-version: 20.19.0
           cache: pnpm
 
       - name: 安装依赖
@@ -41,8 +41,7 @@ jobs:
         env:
           NODE_OPTIONS: --max_old_space_size=8192
         run: |-
-          pnpm run docs:build
-          > src/.vuepress/dist/.nojekyll
+          pnpm build
 
       - name: 部署文档
         uses: JamesIves/github-pages-deploy-action@v4
@@ -50,6 +49,6 @@ jobs:
           ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
         with:
           # 部署文档
-          branch: main
-          folder: src/.vuepress/dist
+          branch: k8s-project
+          folder: dist
           clean: true 
