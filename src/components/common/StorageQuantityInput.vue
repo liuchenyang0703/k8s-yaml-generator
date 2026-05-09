@@ -22,7 +22,7 @@ import { computed } from 'vue';
 
 type StorageUnit = 'Ki' | 'Mi' | 'Gi' | 'Ti' | 'Pi' | 'Ei';
 
-const storageUnits: StorageUnit[] = ['Mi', 'Gi', 'Ti', 'Pi', 'Ei'];
+const storageUnits: StorageUnit[] = ['Ki', 'Mi', 'Gi', 'Ti', 'Pi', 'Ei'];
 
 const props = withDefaults(defineProps<{
   modelValue?: string
