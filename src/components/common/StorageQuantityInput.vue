@@ -73,7 +73,7 @@ const unit = computed({
 <style scoped>
 .storage-quantity-input {
   display: inline-grid;
-  grid-template-columns: 70px 60px;
+  grid-template-columns: 65px 63px;
   gap: 6px;
   width: auto;
   max-width: 100%;
