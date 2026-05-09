@@ -47,16 +47,16 @@
           </el-form-item>
 
           <el-form-item label="requests.storage">
-            <el-input
+            <StorageQuantityInput
               v-model="localForm.requests.storage"
-              placeholder="10Gi"
+              default-value="10Gi"
             />
           </el-form-item>
 
           <el-form-item label="limits.storage">
-            <el-input
+            <StorageQuantityInput
               v-model="localForm.limits.storage"
-              placeholder="20Gi"
+              default-value="20Gi"
             />
           </el-form-item>
         </div>
@@ -119,6 +119,7 @@ import MetadataEditor from '@/components/common/MetadataEditor.vue';
 import KeyValueEditor from '@/components/common/KeyValueEditor.vue';
 import ArrayEditor from '@/components/common/ArrayEditor.vue';
 import StringListEditor from '@/components/common/StringListEditor.vue';
+import StorageQuantityInput from '@/components/common/StorageQuantityInput.vue';
 
 const props = defineProps<{
   modelValue: PersistentVolumeClaimFormData

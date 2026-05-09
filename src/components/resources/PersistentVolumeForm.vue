@@ -21,21 +21,10 @@
             </el-select>
           </el-form-item>
 
-          <el-form-item label="storageClassName">
-            <el-input v-model="localForm.storageClassName" />
-          </el-form-item>
-
-          <el-form-item label="volumeMode">
-            <el-select v-model="localForm.volumeMode">
-              <el-option label="Filesystem" value="Filesystem" />
-              <el-option label="Block" value="Block" />
-            </el-select>
-          </el-form-item>
-
           <el-form-item label="capacity.storage">
-            <el-input
+            <StorageQuantityInput
               v-model="localForm.capacity.storage"
-              placeholder="20Gi"
+              default-value="20Gi"
             />
           </el-form-item>
 
@@ -45,6 +34,17 @@
               <el-option label="Retain" value="Retain" />
               <el-option label="Recycle" value="Recycle" />
             </el-select>
+          </el-form-item>
+
+          <el-form-item label="volumeMode">
+            <el-select v-model="localForm.volumeMode">
+              <el-option label="Filesystem" value="Filesystem" />
+              <el-option label="Block" value="Block" />
+            </el-select>
+          </el-form-item>
+
+          <el-form-item label="storageClassName">
+            <el-input v-model="localForm.storageClassName" />
           </el-form-item>
 
           <el-form-item label="storageType">
@@ -99,6 +99,7 @@ import { computed } from 'vue';
 import type { PersistentVolumeFormData } from '@/types/k8s';
 
 import MetadataEditor from '@/components/common/MetadataEditor.vue';
+import StorageQuantityInput from '@/components/common/StorageQuantityInput.vue';
 
 type StorageType = 'hostPath' | 'nfs';
 
