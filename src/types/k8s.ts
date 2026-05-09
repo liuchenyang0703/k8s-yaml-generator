@@ -265,7 +265,7 @@ export interface PersistentVolumeFormData {
 
 export interface PersistentVolumeClaimFormData {
   metadata: Metadata
-  accessModes: Array<'ReadWriteOnce' | 'ReadOnlyMany' | 'ReadWriteMany'>
+  accessModes: 'ReadWriteOnce' | 'ReadOnlyMany' | 'ReadWriteMany'
   storageClassName?: string
   volumeMode: 'Filesystem' | 'Block'
   requests: ResourceRequirement
