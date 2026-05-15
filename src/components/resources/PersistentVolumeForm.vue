@@ -37,7 +37,11 @@
           </el-form-item>
 
           <el-form-item label="volumeMode">
-            <el-select v-model="localForm.volumeMode">
+            <el-select
+              v-model="localForm.volumeMode"
+              placeholder="默认(Filesystem)"
+            >
+              <el-option label="默认(Filesystem)" value="Default" />
               <el-option label="Filesystem" value="Filesystem" />
               <el-option label="Block" value="Block" />
             </el-select>
@@ -116,6 +120,10 @@ const localForm = computed({
   set: (value: PersistentVolumeFormData) =>
     emit('update:modelValue', value)
 });
+
+if (!localForm.value.volumeMode) {
+  localForm.value.volumeMode = 'Default';
+}
 
 const ensureHostPath = () => {
   if (!localForm.value.hostPath) {

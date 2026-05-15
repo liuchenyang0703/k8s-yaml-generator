@@ -104,9 +104,9 @@ const buildPv = (form: PersistentVolumeFormData) => {
   const spec: any = {
     accessModes: [form.accessModes],
     capacity: { storage: form.capacity.storage },
-    persistentVolumeReclaimPolicy: form.persistentVolumeReclaimPolicy,
-    volumeMode: form.volumeMode
+    persistentVolumeReclaimPolicy: form.persistentVolumeReclaimPolicy
   }
+  if (form.volumeMode && form.volumeMode !== 'Default') spec.volumeMode = form.volumeMode
   if (form.storageClassName) spec.storageClassName = form.storageClassName
   if (form.storageType === 'hostPath' && form.hostPath) {
     spec.hostPath = { path: form.hostPath.path }
@@ -125,7 +125,7 @@ const buildPvc = (form: PersistentVolumeClaimFormData) => ({
       requests: { storage: form.requests.storage }
     },
     storageClassName: form.storageClassName,
-    ...(form.volumeMode ? { volumeMode: form.volumeMode } : {}),
+    ...(form.volumeMode && form.volumeMode !== 'Default' ? { volumeMode: form.volumeMode } : {}),
     selector: {
       matchLabels: form.selector.matchLabels,
       matchExpressions: form.selector.matchExpressions.map((item) => ({ key: item.key, operator: item.operator, values: item.values }))

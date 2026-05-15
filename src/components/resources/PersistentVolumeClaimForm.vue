@@ -39,6 +39,17 @@
           <el-form-item label="storageClassName">
             <el-input v-model="localForm.storageClassName" />
           </el-form-item>
+
+          <el-form-item label="volumeMode">
+            <el-select
+              v-model="localForm.volumeMode"
+              placeholder="默认(Filesystem)"
+            >
+              <el-option label="默认(Filesystem)" value="Default" />
+              <el-option label="Filesystem" value="Filesystem" />
+              <el-option label="Block" value="Block" />
+            </el-select>
+          </el-form-item>
         </div>
 
         <el-form-item label="selector.matchLabels">
@@ -114,6 +125,10 @@ const localForm = computed({
   set: (value: PersistentVolumeClaimFormData) =>
     emit('update:modelValue', value)
 });
+
+if (!localForm.value.volumeMode) {
+  localForm.value.volumeMode = 'Default';
+}
 </script>
 
 <style scoped>

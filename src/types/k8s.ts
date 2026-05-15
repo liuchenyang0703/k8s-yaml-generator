@@ -255,7 +255,7 @@ export interface PersistentVolumeFormData {
   metadata: Metadata
   accessModes: string
   storageClassName?: string
-  volumeMode: 'Filesystem' | 'Block'
+  volumeMode?: 'Default' | 'Filesystem' | 'Block'
   capacity: ResourceRequirement
   persistentVolumeReclaimPolicy: string
   storageType: 'hostPath' | 'nfs'
@@ -267,7 +267,7 @@ export interface PersistentVolumeClaimFormData {
   metadata: Metadata
   accessModes: 'ReadWriteOnce' | 'ReadOnlyMany' | 'ReadWriteMany'
   storageClassName?: string
-  volumeMode?: 'Filesystem' | 'Block'
+  volumeMode?: 'Default' | 'Filesystem' | 'Block'
   requests: ResourceRequirement
   selector: {
     matchLabels: KeyValueMap
