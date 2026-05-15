@@ -102,8 +102,8 @@ const buildConfigMap = (form: ConfigMapFormData) => ({ apiVersion: 'v1', kind: '
 const buildSecret = (form: SecretFormData) => ({ apiVersion: 'v1', kind: 'Secret', metadata: form.metadata, type: form.type, immutable: form.immutable, stringData: form.stringData, data: form.data })
 const buildPv = (form: PersistentVolumeFormData) => {
   const spec: any = {
-    accessModes: [form.accessModes],
     capacity: { storage: form.capacity.storage },
+    accessModes: [form.accessModes],
     persistentVolumeReclaimPolicy: form.persistentVolumeReclaimPolicy
   }
   if (form.volumeMode && form.volumeMode !== 'Default') spec.volumeMode = form.volumeMode
