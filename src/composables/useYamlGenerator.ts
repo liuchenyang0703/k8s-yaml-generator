@@ -115,7 +115,23 @@ const buildPv = (form: PersistentVolumeFormData) => {
   }
   return { apiVersion: 'v1', kind: 'PersistentVolume', metadata: { name: form.metadata.name, labels: form.metadata.labels, annotations: form.metadata.annotations }, spec }
 }
-const buildPvc = (form: PersistentVolumeClaimFormData) => ({ apiVersion: 'v1', kind: 'PersistentVolumeClaim', metadata: form.metadata, spec: { accessModes: [form.accessModes], storageClassName: form.storageClassName, volumeMode: form.volumeMode, resources: { requests: { storage: form.requests.storage }, limits: form.limits.storage ? { storage: form.limits.storage } : undefined }, selector: { matchLabels: form.selector.matchLabels, matchExpressions: form.selector.matchExpressions.map((item) => ({ key: item.key, operator: item.operator, values: item.values })) } } })
+const buildPvc = (form: PersistentVolumeClaimFormData) => ({
+  apiVersion: 'v1',
+  kind: 'PersistentVolumeClaim',
+  metadata: form.metadata,
+  spec: {
+    accessModes: [form.accessModes],
+    resources: {
+      requests: { storage: form.requests.storage }
+    },
+    storageClassName: form.storageClassName,
+    ...(form.volumeMode ? { volumeMode: form.volumeMode } : {}),
+    selector: {
+      matchLabels: form.selector.matchLabels,
+      matchExpressions: form.selector.matchExpressions.map((item) => ({ key: item.key, operator: item.operator, values: item.values }))
+    }
+  }
+})
 const buildSa = (form: ServiceAccountFormData) => ({ apiVersion: 'v1', kind: 'ServiceAccount', metadata: form.metadata, automountServiceAccountToken: form.automountServiceAccountToken, imagePullSecrets: form.imagePullSecrets, secrets: form.secrets })
 const buildRole = (kind: 'Role'|'ClusterRole', form: RoleFormData | ClusterRoleFormData) => ({ apiVersion: 'rbac.authorization.k8s.io/v1', kind, metadata: form.metadata, rules: form.rules.map((rule) => ({ apiGroups: rule.apiGroups, resources: rule.resources, verbs: rule.verbs, resourceNames: rule.resourceNames, nonResourceURLs: kind === 'ClusterRole' ? rule.nonResourceURLs : undefined })) })
 const buildBinding = (kind: 'RoleBinding'|'ClusterRoleBinding', form: RoleBindingFormData | ClusterRoleBindingFormData) => ({ apiVersion: 'rbac.authorization.k8s.io/v1', kind, metadata: form.metadata, roleRef: form.roleRef, subjects: form.subjects })

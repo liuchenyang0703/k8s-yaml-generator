@@ -267,9 +267,8 @@ export interface PersistentVolumeClaimFormData {
   metadata: Metadata
   accessModes: 'ReadWriteOnce' | 'ReadOnlyMany' | 'ReadWriteMany'
   storageClassName?: string
-  volumeMode: 'Filesystem' | 'Block'
+  volumeMode?: 'Filesystem' | 'Block'
   requests: ResourceRequirement
-  limits: ResourceRequirement
   selector: {
     matchLabels: KeyValueMap
     matchExpressions: MatchExpression[]

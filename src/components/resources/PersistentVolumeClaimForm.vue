@@ -29,23 +29,6 @@
             </el-select>
           </el-form-item>
 
-          <el-form-item label="storageClassName">
-            <el-input v-model="localForm.storageClassName" />
-          </el-form-item>
-
-          <el-form-item label="volumeMode">
-            <el-select v-model="localForm.volumeMode">
-              <el-option
-                label="Filesystem"
-                value="Filesystem"
-              />
-              <el-option
-                label="Block"
-                value="Block"
-              />
-            </el-select>
-          </el-form-item>
-
           <el-form-item label="requests.storage">
             <StorageQuantityInput
               v-model="localForm.requests.storage"
@@ -53,11 +36,8 @@
             />
           </el-form-item>
 
-          <el-form-item label="limits.storage">
-            <StorageQuantityInput
-              v-model="localForm.limits.storage"
-              default-value="20Gi"
-            />
+          <el-form-item label="storageClassName">
+            <el-input v-model="localForm.storageClassName" />
           </el-form-item>
         </div>
 
