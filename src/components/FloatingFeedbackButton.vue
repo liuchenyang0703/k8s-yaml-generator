@@ -10,19 +10,17 @@
   >
     <svg
       class="feedback-icon"
-      viewBox="0 0 22 22"
+      viewBox="0 0 24 24"
       aria-hidden="true"
     >
       <path
-        d="M5 5.75A2.75 2.75 0 0 1 7.75 3h8.5A2.75 2.75 0 0 1 19 5.75v6.5A2.75 2.75 0 0 1 16.25 15h-4.6L7.5 18.25V15A2.5 2.5 0 0 1 5 12.5V5.75Z"
+        d="M12 4.25a7.75 7.75 0 1 0 0 15.5 7.75 7.75 0 0 0 0-15.5Z"
         fill="none"
         stroke="currentColor"
         stroke-width="1.65"
-        stroke-linecap="round"
-        stroke-linejoin="round"
       />
       <path
-        d="M10.05 7.8a2.05 2.05 0 0 1 3.9.9c0 1.55-1.95 1.68-1.95 2.9"
+        d="M9.85 9.25a2.25 2.25 0 0 1 4.3.95c0 1.62-2.15 1.76-2.15 3.05"
         fill="none"
         stroke="currentColor"
         stroke-width="1.65"
@@ -30,7 +28,7 @@
       />
       <circle
         cx="12"
-        cy="13.35"
+        cy="15.85"
         r="0.75"
         fill="currentColor"
       />
