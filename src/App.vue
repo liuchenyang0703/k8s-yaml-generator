@@ -33,6 +33,42 @@
         <YamlPreview :yaml-text="yamlText" :filename="downloadName" />
       </section>
     </main>
+    <footer class="site-footer">
+      <p>
+        联系邮箱：
+        <a href="mailto:2162059863@qq.com">2162059863@qq.com</a> | 
+        联系公众号：
+        <a href="/images/微信公众号.jpeg">小刘Linux</a> | 
+        问题反馈：
+        <a href="https://github.com/liuchenyang0703/k8s-yaml-generator/discussions">点击跳转</a>
+      </p>
+      <p class="footer-links">
+        版权所有 &copy; 2025 - {{ currentYear }} By
+        <a href="https://github.com/liuchenyang0703/" target="_blank" rel="noopener noreferrer">Mr.Liucy</a>
+        <span>|</span>
+        <span class="record-link">
+          <img src="/images/public security.png" alt="" />
+          <a href="http://beian.miit.gov.cn/" target="_blank" rel="noopener noreferrer">京ICP备2023037493号</a>
+        </span>
+        <span>|</span>
+        <span class="record-link">
+          <img src="https://icp.gov.moe/favicon.ico" alt="" />
+          <a href="https://icp.gov.moe/?keyword=20250703" target="_blank" rel="noopener noreferrer">萌ICP备20250703号</a>
+        </span>
+      </p>
+      <div class="footer-badges">
+        <a
+          v-for="badge in footerBadges"
+          :key="badge.src"
+          :href="badge.href"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <img :src="badge.src" :alt="badge.alt" />
+        </a>
+      </div>
+    </footer>
+    <FloatingFeedbackButton />
   </div>
 </template>
 
@@ -41,6 +77,7 @@ import { computed, defineAsyncComponent, onBeforeUnmount, onMounted } from 'vue'
 import { storeToRefs } from 'pinia'
 import { ArrowDown } from '@element-plus/icons-vue'
 import { ElMessage } from 'element-plus'
+import FloatingFeedbackButton from '@/components/FloatingFeedbackButton.vue'
 import YamlPreview from '@/components/YamlPreview.vue'
 const DeploymentForm = defineAsyncComponent(() => import('@/components/resources/DeploymentForm.vue'))
 const StatefulSetForm = defineAsyncComponent(() => import('@/components/resources/StatefulSetForm.vue'))
@@ -121,6 +158,29 @@ const componentMap = {
 const currentComponent = computed(() => componentMap[currentKind.value])
 const { yamlText } = useYamlGenerator(currentKind, typedCurrentForm)
 const downloadName = computed(() => (currentForm.value as any)?.metadata?.name || currentKind.value.toLowerCase())
+const currentYear = new Date().getFullYear()
+const footerBadges = [
+  {
+    href: 'https://github.com/liuchenyang0703/',
+    src: 'https://badgen.net/badge/Github/liuchenyang0703/blue?icon=github',
+    alt: 'Github liuchenyang0703'
+  },
+  {
+    href: 'https://github.com/liuchenyang0703/',
+    src: 'https://badgen.net/badge/Star/2k%20%E2%AD%90/blue?icon=github',
+    alt: 'Star 2k'
+  },
+  {
+    href: 'https://github.com/liuchenyang0703/',
+    src: 'https://badgen.net/static/stars/%E2%98%85%E2%98%85%E2%98%85%E2%98%85%E2%98%85?icon=github',
+    alt: 'Five stars'
+  },
+  {
+    href: 'https://liuchenyang.top',
+    src: 'https://badgen.net/badge/个人网站/ToLiucyLinux/blue',
+    alt: '个人网站 ToLiucyLinux'
+  }
+]
 const handleKindChange = (kind: ResourceKind) => store.setKind(kind)
 
 const applyTemplate = (type: string) => {
@@ -259,6 +319,60 @@ const handleShortcut = (event: KeyboardEvent) => {
   top: 16px;
 }
 
+.site-footer {
+  margin-top: 18px;
+  padding: 14px 22px;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.92);
+  color: #64748b;
+  display: grid;
+  gap: 4px;
+  font-size: 13px;
+  line-height: 1.55;
+  text-align: center;
+}
+
+.site-footer p {
+  margin: 0;
+}
+
+.site-footer a {
+  color: #2563eb;
+  text-decoration: none;
+}
+
+.site-footer a:hover {
+  color: #1d4ed8;
+  text-decoration: underline;
+}
+
+.footer-links,
+.record-link,
+.footer-badges {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.record-link img {
+  width: 15px;
+  height: 15px;
+  object-fit: contain;
+}
+
+.footer-badges {
+  margin-top: 4px;
+  gap: 8px;
+}
+
+.footer-badges img {
+  display: block;
+  height: 20px;
+}
+
 .form-host :deep(.el-form) {
   --el-form-label-font-size: 14px;
 }
@@ -378,7 +492,8 @@ const handleShortcut = (event: KeyboardEvent) => {
   }
 
   .topbar,
-  .center-panel {
+  .center-panel,
+  .site-footer {
     padding: 14px;
     border-radius: 16px;
   }
