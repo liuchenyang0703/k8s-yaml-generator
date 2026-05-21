@@ -275,6 +275,17 @@ export interface PersistentVolumeClaimFormData {
   }
 }
 
+export interface StorageClassFormData {
+  metadata: Metadata
+  provisionerMode: 'builtIn' | 'custom'
+  provisioner: string
+  reclaimPolicy?: 'Default' | 'Delete' | 'Retain'
+  volumeBindingMode?: 'Default' | 'Immediate' | 'WaitForFirstConsumer'
+  allowVolumeExpansion?: boolean
+  parameters: KeyValueMap
+  mountOptions: string[]
+}
+
 export interface ServiceAccountFormData {
   metadata: Metadata
   automountServiceAccountToken: boolean
@@ -381,6 +392,7 @@ export type ResourceKind =
   | 'Secret'
   | 'PersistentVolume'
   | 'PersistentVolumeClaim'
+  | 'StorageClass'
   | 'ServiceAccount'
   | 'Role'
   | 'ClusterRole'
@@ -403,6 +415,7 @@ export type ResourceFormUnion =
   | SecretFormData
   | PersistentVolumeFormData
   | PersistentVolumeClaimFormData
+  | StorageClassFormData
   | ServiceAccountFormData
   | RoleFormData
   | ClusterRoleFormData

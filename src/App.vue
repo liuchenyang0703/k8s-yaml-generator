@@ -3,7 +3,7 @@
     <header class="topbar">
       <div class="brand-block">
         <h1>K8s YAML Generator</h1>
-        <p>支持 20 类 Kubernetes 资源的可视化配置、模板套用与 YAML 导出。</p>
+        <p>支持 21 类 Kubernetes 资源的可视化配置、模板套用与 YAML 导出。</p>
       </div>
       <div class="topbar-actions">
         <el-select v-model="store.currentKind" class="kind-select" @change="handleKindChange">
@@ -92,6 +92,7 @@ const ConfigMapForm = defineAsyncComponent(() => import('@/components/resources/
 const SecretForm = defineAsyncComponent(() => import('@/components/resources/SecretForm.vue'))
 const PersistentVolumeForm = defineAsyncComponent(() => import('@/components/resources/PersistentVolumeForm.vue'))
 const PersistentVolumeClaimForm = defineAsyncComponent(() => import('@/components/resources/PersistentVolumeClaimForm.vue'))
+const StorageClassForm = defineAsyncComponent(() => import('@/components/resources/StorageClassForm.vue'))
 const ServiceAccountForm = defineAsyncComponent(() => import('@/components/resources/ServiceAccountForm.vue'))
 const RoleForm = defineAsyncComponent(() => import('@/components/resources/RoleForm.vue'))
 const ClusterRoleForm = defineAsyncComponent(() => import('@/components/resources/ClusterRoleForm.vue'))
@@ -146,6 +147,7 @@ const componentMap = {
   Secret: SecretForm,
   PersistentVolume: PersistentVolumeForm,
   PersistentVolumeClaim: PersistentVolumeClaimForm,
+  StorageClass: StorageClassForm,
   ServiceAccount: ServiceAccountForm,
   Role: RoleForm,
   ClusterRole: ClusterRoleForm,

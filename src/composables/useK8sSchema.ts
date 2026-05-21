@@ -29,6 +29,7 @@ import type {
   ServiceAccountFormData,
   ServiceFormData,
   ServicePort,
+  StorageClassFormData,
   StatefulSetFormData,
   SubjectForm,
   VolumeClaimTemplate,
@@ -166,6 +167,7 @@ export const createDefaultConfigMap = (): ConfigMapFormData => ({ metadata: crea
 export const createDefaultSecret = (): SecretFormData => ({ metadata: createMetadata('demo-secret'), type: 'Opaque', immutable: false,data: {}, stringData: {}  })
 export const createDefaultPersistentVolume = (): PersistentVolumeFormData => ({ metadata: createMetadata('demo-pv'), accessModes: 'ReadWriteOnce', storageClassName: '', volumeMode: 'Default', capacity: { storage: '20Gi' }, persistentVolumeReclaimPolicy: 'Retain', storageType: 'hostPath', hostPath: { path: '/mnt/data' }, nfs: { server: '', path: '/export/data' } })
 export const createDefaultPersistentVolumeClaim = (): PersistentVolumeClaimFormData => ({ metadata: createMetadata('demo-pvc'), accessModes: 'ReadWriteOnce', storageClassName: '', volumeMode: 'Default', requests: { storage: '10Gi' }, selector: { matchLabels: {}, matchExpressions: [] } })
+export const createDefaultStorageClass = (): StorageClassFormData => ({ metadata: { name: 'standard', labels: {}, annotations: {} }, provisionerMode: 'custom', provisioner: '', reclaimPolicy: 'Default', volumeBindingMode: 'Default', allowVolumeExpansion: false, parameters: {}, mountOptions: [] })
 export const createDefaultServiceAccount = (): ServiceAccountFormData => ({ metadata: createMetadata('demo-sa'), automountServiceAccountToken: true, imagePullSecrets: [], secrets: [] })
 export const createDefaultRole = (): RoleFormData => ({ metadata: createMetadata('demo-role'), rules: [createPolicyRule()] })
 export const createDefaultClusterRole = (): ClusterRoleFormData => ({ metadata: { name: 'demo-cluster-role', labels: {}, annotations: {} }, rules: [createPolicyRule()] })
@@ -188,6 +190,7 @@ export const createDefaultResourceByKind = (kind: ResourceKind): ResourceFormUni
     case 'Secret': return createDefaultSecret()
     case 'PersistentVolume': return createDefaultPersistentVolume()
     case 'PersistentVolumeClaim': return createDefaultPersistentVolumeClaim()
+    case 'StorageClass': return createDefaultStorageClass()
     case 'ServiceAccount': return createDefaultServiceAccount()
     case 'Role': return createDefaultRole()
     case 'ClusterRole': return createDefaultClusterRole()

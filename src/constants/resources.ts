@@ -12,6 +12,7 @@ export const RESOURCE_LIST: ResourceDefinition[] = [
   { kind: 'Secret', apiVersion: 'v1', title: 'Secret', group: '配置存储', description: '保存敏感配置。' },
   { kind: 'PersistentVolume', apiVersion: 'v1', title: 'PersistentVolume', group: '存储', description: '集群级持久化存储资源。' },
   { kind: 'PersistentVolumeClaim', apiVersion: 'v1', title: 'PersistentVolumeClaim', group: '存储', description: '声明式申请持久化存储。' },
+  { kind: 'StorageClass', apiVersion: 'storage.k8s.io/v1', title: 'StorageClass', group: '存储', description: '定义动态存储的供应器与参数。' },
   { kind: 'Job', apiVersion: 'batch/v1', title: 'Job', group: '工作负载', description: '执行一次性任务。' },
   { kind: 'CronJob', apiVersion: 'batch/v1', title: 'CronJob', group: '工作负载', description: '按 Cron 表达式周期性执行任务。' },
   { kind: 'NetworkPolicy', apiVersion: 'networking.k8s.io/v1', title: 'NetworkPolicy', group: '服务发现', description: '控制 Pod 入站与出站访问。' },

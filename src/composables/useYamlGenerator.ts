@@ -21,6 +21,7 @@ import type {
   SecretFormData,
   ServiceAccountFormData,
   ServiceFormData,
+  StorageClassFormData,
   StatefulSetFormData
 } from '@/types/k8s'
 import { toYaml } from '@/utils/yamlHelper'
@@ -132,6 +133,17 @@ const buildPvc = (form: PersistentVolumeClaimFormData) => ({
     }
   }
 })
+const buildStorageClass = (form: StorageClassFormData) => ({
+  apiVersion: 'storage.k8s.io/v1',
+  kind: 'StorageClass',
+  metadata: { name: form.metadata.name, labels: form.metadata.labels, annotations: form.metadata.annotations },
+  provisioner: form.provisioner,
+  ...(form.parameters && Object.keys(form.parameters).length > 0 ? { parameters: form.parameters } : {}),
+  ...(form.reclaimPolicy && form.reclaimPolicy !== 'Default' ? { reclaimPolicy: form.reclaimPolicy } : {}),
+  ...(form.allowVolumeExpansion ? { allowVolumeExpansion: form.allowVolumeExpansion } : {}),
+  ...(form.mountOptions.filter(Boolean).length > 0 ? { mountOptions: form.mountOptions.filter(Boolean) } : {}),
+  ...(form.volumeBindingMode && form.volumeBindingMode !== 'Default' ? { volumeBindingMode: form.volumeBindingMode } : {})
+})
 const buildSa = (form: ServiceAccountFormData) => ({ apiVersion: 'v1', kind: 'ServiceAccount', metadata: form.metadata, automountServiceAccountToken: form.automountServiceAccountToken, imagePullSecrets: form.imagePullSecrets, secrets: form.secrets })
 const buildRole = (kind: 'Role'|'ClusterRole', form: RoleFormData | ClusterRoleFormData) => ({ apiVersion: 'rbac.authorization.k8s.io/v1', kind, metadata: form.metadata, rules: form.rules.map((rule) => ({ apiGroups: rule.apiGroups, resources: rule.resources, verbs: rule.verbs, resourceNames: rule.resourceNames, nonResourceURLs: kind === 'ClusterRole' ? rule.nonResourceURLs : undefined })) })
 const buildBinding = (kind: 'RoleBinding'|'ClusterRoleBinding', form: RoleBindingFormData | ClusterRoleBindingFormData) => ({ apiVersion: 'rbac.authorization.k8s.io/v1', kind, metadata: form.metadata, roleRef: form.roleRef, subjects: form.subjects })
@@ -153,6 +165,7 @@ export const useYamlGenerator = (kindRef: Ref<ResourceKind>, formRef: Ref<Resour
       case 'Secret': return buildSecret(formRef.value as SecretFormData)
       case 'PersistentVolume': return buildPv(formRef.value as PersistentVolumeFormData)
       case 'PersistentVolumeClaim': return buildPvc(formRef.value as PersistentVolumeClaimFormData)
+      case 'StorageClass': return buildStorageClass(formRef.value as StorageClassFormData)
       case 'ServiceAccount': return buildSa(formRef.value as ServiceAccountFormData)
       case 'Role': return buildRole('Role', formRef.value as RoleFormData)
       case 'ClusterRole': return buildRole('ClusterRole', formRef.value as ClusterRoleFormData)

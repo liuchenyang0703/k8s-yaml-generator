@@ -11,6 +11,7 @@
 - 👁️ **实时预览**：左侧编辑，右侧实时渲染 YAML 内容，支持一键复制与下载。
 - 💾 **智能缓存**：基于 Pinia + localStorage 实现表单数据自动保存，刷新不丢失（含过期策略）。
 - 📦 **模板库**：内置常用配置模板，支持快速初始化表单。
+- 🧩 **灵活存储类**：StorageClass 支持内置 provisioner 与外部自定义 provisioner，默认选择外部自定义并保持 provisioner 为空，便于填写 CSI 驱动。
 - 🔄 **双向转换**：支持从现有 YAML 导入并解析为表单数据（实验性功能）。
 
 ## 📸 界面预览
@@ -75,7 +76,7 @@ pnpm build
 |--|--|
 |工作负载	|Deployment, StatefulSet, DaemonSet, Job, CronJob, Pod|
 |服务与网络	|Service, Ingress, NetworkPolicy|
-|配置与存储	|ConfigMap, Secret, PersistentVolume (PV), PersistentVolumeClaim (PVC)|
+|配置与存储	|ConfigMap, Secret, PersistentVolume (PV), PersistentVolumeClaim (PVC), StorageClass|
 |RBAC	|ServiceAccount, Role, ClusterRole, RoleBinding, ClusterRoleBinding|
 |其他|	HorizontalPodAutoscaler (HPA), Namespace|
 
@@ -100,7 +101,7 @@ pnpm build
     - `resources/` - 各种 K8s 资源表单页
       - `DeploymentForm.vue`, `StatefulSetForm.vue`, `DaemonSetForm.vue`, `JobForm.vue`, `CronJobForm.vue`, `PodForm.vue` 等
       - `ServiceForm.vue`, `IngressForm.vue`, `NetworkPolicyForm.vue` 等网络与访问控制资源
-      - `ConfigMapForm.vue`, `SecretForm.vue`, `PersistentVolumeClaimForm.vue` 等存储与配置资源
+      - `ConfigMapForm.vue`, `SecretForm.vue`, `PersistentVolumeForm.vue`, `PersistentVolumeClaimForm.vue`, `StorageClassForm.vue` 等存储与配置资源
       - `ServiceAccountForm.vue`, `RoleForm.vue`, `ClusterRoleForm.vue`, `RoleBindingForm.vue`, `ClusterRoleBindingForm.vue` 等 RBAC 资源
       - `HorizontalPodAutoscalerForm.vue`, `NamespaceForm.vue`
   - `composables/` - 组合式函数钩子
