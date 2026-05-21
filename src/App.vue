@@ -168,12 +168,11 @@ const footerBadges = [
     alt: 'Github liuchenyang0703'
   },
   {
-    href: 'https://github.com/liuchenyang0703/',
+    href: 'https://github.com/liuchenyang0703/k8s-yaml-generator',
     src: 'https://badgen.net/badge/Star/2k%20%E2%AD%90/blue?icon=github',
     alt: 'Star 2k'
   },
   {
-    href: 'https://github.com/liuchenyang0703/',
     src: 'https://badgen.net/static/stars/%E2%98%85%E2%98%85%E2%98%85%E2%98%85%E2%98%85?icon=github',
     alt: 'Five stars'
   },
