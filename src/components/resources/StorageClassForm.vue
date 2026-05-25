@@ -111,6 +111,7 @@ const builtInProvisioners = [
   'kubernetes.io/azure-disk',
   'kubernetes.io/azure-file',
   'kubernetes.io/cinder',
+  'kubernetes.io/glusterfs',
   'kubernetes.io/no-provisioner'
 ];
 
