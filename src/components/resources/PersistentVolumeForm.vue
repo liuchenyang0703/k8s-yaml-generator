@@ -64,13 +64,29 @@
 
         <div
           v-if="localForm.storageType === 'hostPath' && localForm.hostPath"
-          class="storage-block"
+          class="grid-two storage-block"
         >
           <el-form-item label="hostPath.path">
             <el-input
               v-model="localForm.hostPath.path"
               placeholder="/mnt/data"
             />
+          </el-form-item>
+
+          <el-form-item label="hostPath.type">
+            <el-select
+              v-model="localForm.hostPath.type"
+              clearable
+              placeholder="可不选"
+            >
+              <el-option label="DirectoryOrCreate" value="DirectoryOrCreate" />
+              <el-option label="Directory" value="Directory" />
+              <el-option label="FileOrCreate" value="FileOrCreate" />
+              <el-option label="File" value="File" />
+              <el-option label="Socket" value="Socket" />
+              <el-option label="CharDevice" value="CharDevice" />
+              <el-option label="BlockDevice" value="BlockDevice" />
+            </el-select>
           </el-form-item>
         </div>
 
@@ -128,7 +144,8 @@ if (!localForm.value.volumeMode) {
 const ensureHostPath = () => {
   if (!localForm.value.hostPath) {
     localForm.value.hostPath = {
-      path: '/mnt/data'
+      path: '/mnt/data',
+      type: ''
     };
   }
 };

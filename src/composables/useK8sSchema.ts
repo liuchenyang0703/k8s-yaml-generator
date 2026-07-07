@@ -49,14 +49,15 @@ const createMetadata = (name = '') => ({
 export const createPort = (): ContainerPort => ({ name: '', containerPort: 80, protocol: 'TCP' })
 export const createEnv = (): EnvVar => ({ name: '', valueFrom: { type: 'value', value: '' } })
 export const createVolumeMount = (): VolumeMount => ({ name: '', mountPath: '', subPath: '', readOnly: false })
-export const createVolume = (): VolumeConfig => ({ name: 'data', type: 'emptyDir', sourceName: '' })
+export const createVolume = (): VolumeConfig => ({ name: 'data', type: 'emptyDir', hostPath: '', hostPathType: '', sourceName: '' })
 export const createToleration = (): TolerationConfig => ({ key: '', operator: 'Equal', value: '', effect: 'NoSchedule', tolerationSeconds: 0 })
 export const createProbe = (): ProbeConfig => ({ type: 'httpGet', httpGet: { path: '/', port: 80 }, tcpSocketPort: 80, execCommand: '', initialDelaySeconds: 10, periodSeconds: 10 })
 export const createContainer = (): ContainerConfig => ({
   name: 'app',
   image: 'nginx:1.25',
   imagePullPolicy: 'IfNotPresent',
-  ports: [createPort()],
+  command: [''],
+  ports: [],
   env: [],
   volumeMounts: [],
   resourcesEnabled: false,
@@ -66,15 +67,15 @@ export const createContainer = (): ContainerConfig => ({
   readinessProbe: createProbe(),
   securityContext: { privileged: false }
 })
-export const createPodTemplate = (restartPolicy: 'Always' | 'OnFailure' | 'Never' = 'Always') => ({
+export const createPodTemplate = (restartPolicy: '' | 'Always' | 'OnFailure' | 'Never' = '') => ({
   labels: {},
   annotations: {},
   hostNetwork: false,
   restartPolicy,
-  terminationGracePeriodSeconds: 30,
+  terminationGracePeriodSeconds: 0,
   serviceAccountName: '',
   containers: [createContainer()],
-  volumes: [] as VolumeConfig[],
+  volumes: [createVolume()] as VolumeConfig[],
   tolerations: [] as TolerationConfig[]
 })
 export const createServicePort = (): ServicePort => ({ name: '', port: 80, targetPort: 80, protocol: 'TCP' })
@@ -89,8 +90,8 @@ export const createDefaultDeployment = (): DeploymentFormData => ({
   metadata: createMetadata('demo-deployment'),
   replicas: 1,
   matchLabels: { app: 'demo' },
-  strategy: { type: 'RollingUpdate', maxSurge: '25%', maxUnavailable: '25%' },
-  podTemplate: { ...createPodTemplate('Always'), labels: { app: 'demo' } }
+  strategy: { type: '', maxSurge: '25%', maxUnavailable: '25%' },
+  podTemplate: { ...createPodTemplate(), labels: { app: 'demo' } }
 })
 
 export const createDefaultStatefulSet = (): StatefulSetFormData => ({
@@ -99,18 +100,18 @@ export const createDefaultStatefulSet = (): StatefulSetFormData => ({
   serviceName: 'demo-headless',
   matchLabels: { app: 'demo' },
   podManagementPolicy: 'OrderedReady',
-  strategy: { type: 'RollingUpdate', partition: 0 },
+  strategy: { type: '', partition: 0 },
   volumeClaimTemplates: [createVolumeClaimTemplate()],
-  podTemplate: { ...createPodTemplate('Always'), labels: { app: 'demo' } }
+  podTemplate: { ...createPodTemplate(), labels: { app: 'demo' } }
 })
 
 export const createDefaultDaemonSet = (): DaemonSetFormData => ({
   metadata: createMetadata('demo-daemonset'),
   matchLabels: { app: 'demo' },
-  updateStrategy: 'RollingUpdate',
+  updateStrategy: '',
   maxUnavailable: '1',
   minReadySeconds: 0,
-  podTemplate: { ...createPodTemplate('Always'), labels: { app: 'demo' } }
+  podTemplate: { ...createPodTemplate(), labels: { app: 'demo' } }
 })
 
 export const createDefaultJob = (): JobFormData => ({
@@ -120,7 +121,7 @@ export const createDefaultJob = (): JobFormData => ({
   backoffLimit: 6,
   activeDeadlineSeconds: undefined,
   ttlSecondsAfterFinished: 300,
-  podTemplate: createPodTemplate('OnFailure')
+  podTemplate: createPodTemplate()
 })
 
 export const createDefaultCronJob = (): CronJobFormData => ({
@@ -135,7 +136,7 @@ export const createDefaultCronJob = (): CronJobFormData => ({
 
 export const createDefaultPod = (): PodFormData => ({
   metadata: createMetadata('demo-pod'),
-  podTemplate: createPodTemplate('Always')
+  podTemplate: createPodTemplate()
 })
 
 export const createDefaultService = (): ServiceFormData => ({
@@ -165,7 +166,7 @@ export const createDefaultNetworkPolicy = (): NetworkPolicyFormData => ({
 
 export const createDefaultConfigMap = (): ConfigMapFormData => ({ metadata: createMetadata('demo-configmap'), immutable: false, data: { APP_NAME: 'demo' }, binaryData: {} })
 export const createDefaultSecret = (): SecretFormData => ({ metadata: createMetadata('demo-secret'), type: 'Opaque', immutable: false,data: {}, stringData: {}  })
-export const createDefaultPersistentVolume = (): PersistentVolumeFormData => ({ metadata: createMetadata('demo-pv'), accessModes: 'ReadWriteOnce', storageClassName: '', volumeMode: 'Default', capacity: { storage: '20Gi' }, persistentVolumeReclaimPolicy: 'Retain', storageType: 'hostPath', hostPath: { path: '/mnt/data' }, nfs: { server: '', path: '/export/data' } })
+export const createDefaultPersistentVolume = (): PersistentVolumeFormData => ({ metadata: createMetadata('demo-pv'), accessModes: 'ReadWriteOnce', storageClassName: '', volumeMode: 'Default', capacity: { storage: '20Gi' }, persistentVolumeReclaimPolicy: 'Retain', storageType: 'hostPath', hostPath: { path: '/mnt/data', type: '' }, nfs: { server: '', path: '/export/data' } })
 export const createDefaultPersistentVolumeClaim = (): PersistentVolumeClaimFormData => ({ metadata: createMetadata('demo-pvc'), accessModes: 'ReadWriteOnce', storageClassName: '', volumeMode: 'Default', requests: { storage: '10Gi' }, selector: { matchLabels: {}, matchExpressions: [] } })
 export const createDefaultStorageClass = (): StorageClassFormData => ({ metadata: { name: 'standard', labels: {}, annotations: {} }, provisionerMode: 'custom', provisioner: '', reclaimPolicy: 'Default', volumeBindingMode: 'Default', allowVolumeExpansion: false, parameters: {}, mountOptions: [] })
 export const createDefaultServiceAccount = (): ServiceAccountFormData => ({ metadata: createMetadata('demo-sa'), automountServiceAccountToken: true, imagePullSecrets: [], secrets: [] })

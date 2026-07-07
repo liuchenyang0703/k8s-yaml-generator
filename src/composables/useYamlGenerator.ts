@@ -32,6 +32,7 @@ const envToManifest = (env: any) => {
   return { name: env.name, valueFrom: { [env.valueFrom.type]: { name: env.valueFrom.name, key: env.valueFrom.key } } }
 }
 const volumeToManifest = (volume: any) => {
+  if (volume.type === 'hostPath') return { name: volume.name, hostPath: { path: volume.hostPath, type: volume.hostPathType || undefined } }
   if (volume.type === 'configMap') return { name: volume.name, configMap: { name: volume.sourceName } }
   if (volume.type === 'secret') return { name: volume.name, secret: { secretName: volume.sourceName } }
   if (volume.type === 'persistentVolumeClaim') return { name: volume.name, persistentVolumeClaim: { claimName: volume.claimName || volume.sourceName } }
@@ -59,7 +60,7 @@ const podSpec = (podTemplate: any) => ({
   ...(podTemplate.nodeName ? { nodeName: podTemplate.nodeName } : {}),
   ...(podTemplate.serviceAccountName ? { serviceAccountName: podTemplate.serviceAccountName } : {}),
   ...(podTemplate.restartPolicy ? { restartPolicy: podTemplate.restartPolicy } : {}),
-  ...(podTemplate.terminationGracePeriodSeconds !== undefined ? { terminationGracePeriodSeconds: podTemplate.terminationGracePeriodSeconds } : {}),
+  ...(podTemplate.terminationGracePeriodSeconds > 0 ? { terminationGracePeriodSeconds: podTemplate.terminationGracePeriodSeconds } : {}),
   tolerations: podTemplate.tolerations?.map((item: any) => ({
     key: item.key || undefined,
     operator: item.operator,
@@ -71,6 +72,7 @@ const podSpec = (podTemplate: any) => ({
     name: container.name,
     image: container.image,
     imagePullPolicy: container.imagePullPolicy,
+    command: container.command?.filter((item: string) => item.trim()),
     ports: container.ports.map((port: any) => ({ name: port.name, containerPort: port.containerPort, protocol: port.protocol })),
     env: container.env.map(envToManifest),
     volumeMounts: container.volumeMounts.map((mount: any) => ({ name: mount.name, mountPath: mount.mountPath, subPath: mount.subPath || undefined, readOnly: mount.readOnly })), 
@@ -110,7 +112,7 @@ const buildPv = (form: PersistentVolumeFormData) => {
   if (form.volumeMode && form.volumeMode !== 'Default') spec.volumeMode = form.volumeMode
   if (form.storageClassName) spec.storageClassName = form.storageClassName
   if (form.storageType === 'hostPath' && form.hostPath) {
-    spec.hostPath = { path: form.hostPath.path }
+    spec.hostPath = { path: form.hostPath.path, type: form.hostPath.type || undefined }
   } else if (form.storageType === 'nfs' && form.nfs) {
     spec.nfs = { server: form.nfs.server, path: form.nfs.path }
   }

@@ -53,6 +53,39 @@
       </template>
     </ArrayEditor>
 
+    <ArrayEditor v-model="model.volumes" title="卷" label-key="name" :create-item="createVolume">
+      <template #default="{ item }">
+        <div class="grid-two">
+          <el-form-item label="名称"><el-input v-model="item.name" /></el-form-item>
+          <el-form-item label="类型">
+            <el-select v-model="item.type">
+              <el-option label="emptyDir" value="emptyDir" />
+              <el-option label="hostPath" value="hostPath" />
+              <el-option label="ConfigMap" value="configMap" />
+              <el-option label="Secret" value="secret" />
+              <el-option label="PVC" value="persistentVolumeClaim" />
+            </el-select>
+          </el-form-item>
+          <el-form-item v-if="item.type === 'hostPath'" label="主机路径">
+            <el-input v-model="item.hostPath" placeholder="/data" />
+          </el-form-item>
+          <el-form-item v-if="item.type === 'hostPath'" label="hostPath.type">
+            <el-select v-model="item.hostPathType" clearable placeholder="可不选">
+              <el-option label="DirectoryOrCreate" value="DirectoryOrCreate" />
+              <el-option label="Directory" value="Directory" />
+              <el-option label="FileOrCreate" value="FileOrCreate" />
+              <el-option label="File" value="File" />
+              <el-option label="Socket" value="Socket" />
+              <el-option label="CharDevice" value="CharDevice" />
+              <el-option label="BlockDevice" value="BlockDevice" />
+            </el-select>
+          </el-form-item>
+          <el-form-item v-else-if="item.type !== 'emptyDir'" label="引用名称"><el-input v-model="item.sourceName" /></el-form-item>
+          <el-form-item v-if="item.type === 'persistentVolumeClaim'" label="PVC 名称"><el-input v-model="item.claimName" /></el-form-item>
+        </div>
+      </template>
+    </ArrayEditor>
+
     <ArrayEditor v-model="model.containers" title="容器" label-key="name" :create-item="createContainer">
       <template #default="{ item }">
         <div class="grid-three">
@@ -68,6 +101,10 @@
             </el-select>
           </el-form-item>
         </div>
+
+        <el-form-item label="启动命令">
+          <StringListEditor v-model="item.command" placeholder="例如：/bin/sh、-c（每项对应一个参数）" />
+        </el-form-item>
 
         <ArrayEditor v-model="item.ports" title="端口" label-key="name" :create-item="createPort">
           <template #default="{ item: port }">
@@ -104,24 +141,6 @@
             </div>
           </template>
         </ArrayEditor>
-
-    <ArrayEditor v-model="model.volumes" title="卷挂载" label-key="name" :create-item="createVolume">
-      <template #default="{ item }">
-        <div class="grid-four">
-          <el-form-item label="名称"><el-input v-model="item.name" /></el-form-item>
-          <el-form-item label="类型">
-            <el-select v-model="item.type">
-              <el-option label="emptyDir" value="emptyDir" />
-              <el-option label="ConfigMap" value="configMap" />
-              <el-option label="Secret" value="secret" />
-              <el-option label="PVC" value="persistentVolumeClaim" />
-            </el-select>
-          </el-form-item>
-          <el-form-item v-if="item.type !== 'emptyDir'" label="引用名称"><el-input v-model="item.sourceName" /></el-form-item>
-          <el-form-item v-if="item.type === 'persistentVolumeClaim'" label="PVC 名称"><el-input v-model="item.claimName" /></el-form-item>
-        </div>
-      </template>
-    </ArrayEditor>
 
         <ArrayEditor v-model="item.volumeMounts" title="卷挂载路径" label-key="name" :create-item="createVolumeMount">
           <template #default="{ item: mount }">
@@ -207,6 +226,7 @@
 import ArrayEditor from './ArrayEditor.vue'
 import KeyValueEditor from './KeyValueEditor.vue'
 import ResourceInput from './ResourceInput.vue'
+import StringListEditor from './StringListEditor.vue'
 import { COMMON_ENV_SUGGESTIONS, COMMON_IMAGE_SUGGESTIONS } from '@/constants/resources'
 import { createContainer, createEnv, createPort, createToleration, createVolume, createVolumeMount } from '@/composables/useK8sSchema'
 

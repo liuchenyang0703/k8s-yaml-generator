@@ -23,7 +23,8 @@ export const pruneEmpty = <T>(input: T): T => {
         (Array.isArray(cleaned) && cleaned.length === 0) ||
         (isPlainObject(cleaned) && Object.keys(cleaned).length === 0)
       )
-      if (shouldKeep) result[key] = cleaned
+      // emptyDir is intentionally represented by an empty object in Kubernetes YAML.
+      if (shouldKeep || key === 'emptyDir') result[key] = cleaned
     })
     return result as T
   }

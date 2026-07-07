@@ -51,7 +51,9 @@ export interface VolumeMount {
 
 export interface VolumeConfig {
   name: string
-  type: 'emptyDir' | 'configMap' | 'secret' | 'persistentVolumeClaim'
+  type: 'emptyDir' | 'hostPath' | 'configMap' | 'secret' | 'persistentVolumeClaim'
+  hostPath?: string
+  hostPathType?: string
   sourceName?: string
   claimName?: string
 }
@@ -78,6 +80,7 @@ export interface ContainerConfig {
   name: string
   image: string
   imagePullPolicy?: 'Always' | 'Never' | 'IfNotPresent'
+  command: string[]
   ports: ContainerPort[]
   env: EnvVar[]
   volumeMounts: VolumeMount[]
@@ -105,7 +108,7 @@ export interface PodTemplateSpecConfig {
   annotations: KeyValueMap
   hostNetwork?: boolean
   nodeName?: string
-  restartPolicy?: 'Always' | 'OnFailure' | 'Never'
+  restartPolicy?: '' | 'Always' | 'OnFailure' | 'Never'
   terminationGracePeriodSeconds?: number
   serviceAccountName?: string
   containers: ContainerConfig[]
@@ -122,7 +125,7 @@ export interface WorkloadCommonForm {
 
 export interface DeploymentFormData extends WorkloadCommonForm {
   strategy: {
-    type: 'RollingUpdate' | 'Recreate'
+    type: '' | 'RollingUpdate' | 'Recreate'
     maxSurge?: string
     maxUnavailable?: string
   }
@@ -132,14 +135,14 @@ export interface StatefulSetFormData extends WorkloadCommonForm {
   serviceName: string
   podManagementPolicy?: 'OrderedReady' | 'Parallel'
   strategy: {
-    type?: 'RollingUpdate' | 'OnDelete'
+    type?: '' | 'RollingUpdate' | 'OnDelete'
     partition?: number
   }
   volumeClaimTemplates: VolumeClaimTemplate[]
 }
 
 export interface DaemonSetFormData extends WorkloadCommonForm {
-  updateStrategy?: 'RollingUpdate' | 'OnDelete'
+  updateStrategy?: '' | 'RollingUpdate' | 'OnDelete'
   maxUnavailable?: string
   minReadySeconds?: number
 }
@@ -259,7 +262,7 @@ export interface PersistentVolumeFormData {
   capacity: ResourceRequirement
   persistentVolumeReclaimPolicy: string
   storageType: 'hostPath' | 'nfs'
-  hostPath?: { path: string }
+  hostPath?: { path: string; type?: string }
   nfs?: { server: string; path: string }
 }
 
