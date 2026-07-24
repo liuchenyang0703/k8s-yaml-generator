@@ -32,5 +32,11 @@ export const pruneEmpty = <T>(input: T): T => {
   return input
 }
 
-export const toYaml = (value: unknown): string => yaml.dump(pruneEmpty(value), { indent: 2, lineWidth: -1, noRefs: true })
+export const toYaml = (value: unknown): string =>
+  yaml.dump(pruneEmpty(value), {
+    indent: 2,
+    lineWidth: -1,
+    noRefs: true,
+    quotingType: '"'
+  })
 export const fromYaml = <T = unknown>(value: string): T => yaml.load(value) as T
